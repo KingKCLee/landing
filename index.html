@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CH집현전 | Decision Architecture</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;700;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
         .font-serif { font-family: 'Noto Serif KR', serif; }
@@ -16,16 +18,15 @@
         .bg-gold { background-color: #C5A059; }
         .text-gold { color: #C5A059; }
         .section-spacing { padding-top: 25vh; padding-bottom: 25vh; }
-        
-        /* 다이어그램 효과 */
+
         .diag-box { border: 1px solid #e5e7eb; transition: all 0.5s ease; }
-        .active .diag-box { border-color: #C5A059; box-shadow: 0 20px 40px rgba(197, 160, 89, 0.1); }
-        
+        .active .diag-box { border-color: #C5A059; box-shadow: 0 20px 40px rgba(197,160,89,0.1); }
+
         .pulse-red { animation: pulse-red 2s infinite; }
         @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(239,68,68,0); }
+            100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
         }
 
         .gradient-text {
@@ -33,83 +34,62 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CH집현전 | Decision Architecture</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;700;900&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
-        .font-serif { font-family: 'Noto Serif KR', serif; }
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .break-keep { word-break: keep-all; }
-        .bg-gold { background-color: #C5A059; }
-        .text-gold { color: #C5A059; }
-        .section-spacing { padding-top: 20vh; padding-bottom: 20vh; }
-        
-        .pulse-red { animation: pulse-red 2s infinite; }
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-
     </style>
 </head>
+
 <body class="min-h-screen bg-[#FDFCFB] text-[#1A1A1A] overflow-x-hidden selection:bg-[#C5A059] selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-xl border-b border-stone-100 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex flex-col">
-                <span class="text-xl font-black tracking-tighter text-gold">CH집현전</span>
-                <span class="text-[9px] tracking-widest text-stone-400 font-bold uppercase">Decision Architecture</span>
-            </div>
-            <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-widest text-stone-500 uppercase">
-                <a href="#philosophy" class="hover:text-gold transition-colors">Philosophy</a>
-                <a href="#problem" class="hover:text-gold transition-colors">Problem</a>
-                <a href="#standards" class="hover:text-gold transition-colors">Principles</a>
-                <a href="#expertise" class="hover:text-gold transition-colors">Expertise</a>
-            </div>
-            <button onclick="document.getElementById('consultation-form').scrollIntoView({ behavior: 'smooth' })" 
-                class="bg-[#1A1A1A] text-white px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-gold transition-all">
-                점검 요청하기
+<!-- Navigation -->
+<nav class="fixed w-full z-50 bg-white/80 backdrop-blur-xl border-b border-stone-100 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex flex-col">
+            <span class="text-xl font-black tracking-tighter text-gold">CH집현전</span>
+            <span class="text-[9px] tracking-widest text-stone-400 font-bold uppercase">Decision Architecture</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-widest text-stone-500 uppercase">
+            <a href="#philosophy" class="hover:text-gold transition-colors">Philosophy</a>
+            <a href="#problem" class="hover:text-gold transition-colors">Problem</a>
+            <a href="#standards" class="hover:text-gold transition-colors">Principles</a>
+            <a href="#expertise" class="hover:text-gold transition-colors">Expertise</a>
+        </div>
+        <button onclick="document.getElementById('consultation-form').scrollIntoView({ behavior: 'smooth' })"
+            class="bg-[#1A1A1A] text-white px-6 py-2.5 text-xs font-bold tracking-widest uppercase hover:bg-gold transition-all">
+            점검 요청하기
+        </button>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden bg-[#1A1A1A]">
+    <div class="absolute inset-0 opacity-40">
+        <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#1A1A1A]/50 to-[#1A1A1A]"></div>
+
+    <div class="relative z-10 text-center px-6 reveal">
+        <h2 class="text-gold text-sm md:text-base font-bold tracking-[0.4em] uppercase mb-6">Real Estate Decision Architect</h2>
+        <h1 class="text-5xl md:text-7xl text-white font-bold leading-tight mb-10 break-keep tracking-tight">
+            사람의 인생이 걸린 선택이라면<br>여러분의 <span class="text-[#C5A059]">생각정리</span>가 먼저입니다
+        </h1>
+        <div class="text-stone-300 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed mb-12 break-keep font-light opacity-90">
+            부동산은<br>
+            누군가에게는 인생을 바꿔주는 기회였고,<br>
+            누군가에게는 다시는 되돌릴 수 없는 후회가 되었습니다.<br><br>
+            문제는 '집'이 아니라<br>
+            '선택을 하는 방식'이었습니다.<br><br>
+            그래서 저는<br>
+            집을 먼저 권하지 않습니다.<br>
+            생각의 방향을 함께 잡습니다.
+        </div>
+        <div class="flex flex-col items-center gap-4">
+            <button onclick="document.getElementById('philosophy').scrollIntoView({ behavior: 'smooth' })"
+                class="group flex flex-col items-center gap-2 text-stone-400 hover:text-white transition-colors">
+                <span class="text-[10px] uppercase tracking-[0.3em]">Scroll to Explore</span>
+                <i data-lucide="chevron-down" class="animate-bounce"></i>
             </button>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden bg-[#1A1A1A]">
-        <div class="absolute inset-0 opacity-40">
-            <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#1A1A1A]/50 to-[#1A1A1A]"></div>
-        
-        <div class="relative z-10 text-center px-6 reveal">
-            <h2 class="text-gold text-sm md:text-base font-bold tracking-[0.4em] uppercase mb-6">Real Estate Decision Architect</h2>
-            <h1 class="text-5xl md:text-7xl text-white font-bold leading-tight mb-10 break-keep tracking-tight">
-                사람의 인생이 걸린 선택이라면<br>여러분의 <span class="text-[#C5A059]">생각정리</span>가 먼저입니다
-            </h1>
-            <div class="text-stone-300 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed mb-12 break-keep font-light opacity-90">
-                부동산은<br>
-                누군가에게는 인생을 바꿔주는 기회였고,<br>
-                누군가에게는 다시는 되돌릴 수 없는 후회가 되었습니다.<br><br>
-                문제는 '집'이 아니라<br>
-                '선택을 하는 방식'이었습니다.<br><br>
-                그래서 저는<br>
-                집을 먼저 권하지 않습니다.<br>
-생각의 방향을 함께 잡습니다.
-            </div>
-            <div class="flex flex-col items-center gap-4">
-                <button onclick="document.getElementById('philosophy').scrollIntoView({ behavior: 'smooth' })" class="group flex flex-col items-center gap-2 text-stone-400 hover:text-white transition-colors">
-                    <span class="text-[10px] uppercase tracking-[0.3em]">Scroll to Explore</span>
-                    <i data-lucide="chevron-down" class="animate-bounce"></i>
-                </button>
-            </div>
-        </div>
-    </section>
+    </div>
+</section>
 
     <!-- Profile Section -->
     <section id="philosophy" class="py-32 px-6 bg-white">
@@ -780,13 +760,16 @@
         </div>
     </div>
 
-    <script>
-        lucide.createIcons();
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        function showConfirmation() { document.getElementById('modal').classList.remove('hidden'); }
-    </script>
+
+<script>
+    lucide.createIcons();
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
