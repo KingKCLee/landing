@@ -641,7 +641,7 @@
                                 <span class="block text-gold font-bold mb-2">수요</span>
                             </div>
                             <div class="p-8 bg-white border border-stone-100 shadow-sm text-center">
-                                <span class="block text-gold font-bold mb-2">전매</span>
+                                <span class="block text-gold font-bold mb-2">위험</span>
                             </div>
                             <div class="p-8 bg-white border border-stone-100 shadow-sm text-center">
                                 <span class="block text-gold font-bold mb-2">자금</span>
@@ -655,7 +655,7 @@
                             "하나라도 설명이 안 되면 소개하지 않습니다."
                         </p>
                         <div class="space-y-6 text-stone-500 font-light leading-relaxed break-keep text-lg">
-                            <p>교통·수요·전매·자금 구조... 이 네 가지 핵심 톱니바퀴 중 하나라도 삐걱거린다면 그 현장은 탈락입니다. '언젠가 좋아지겠지'라는 막연한 기대는 집현전의 필터를 통과할 수 없습니다.</p>
+                            <p>교통·수요·위험·자금 구조... 이 네 가지 핵심 톱니바퀴 중 하나라도 삐걱거린다면 그 현장은 탈락입니다. 그래서 지역주택조합이나 민간임대주택 같은 현장은 절대 추천하지 않습니다. '언젠가 좋아지겠지'라는 막연한 기대는 집현전의 필터를 통과할 수 없습니다.</p>
                         </div>
                     </div>
                 </div>
@@ -780,13 +780,120 @@
         </div>
     </div>
 
+   <!-- Error Modal -->
+    <div id="error-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md hidden px-6">
+        <div class="bg-white p-12 md:p-20 max-w-lg w-full text-center shadow-2xl relative rounded-3xl">
+            <i data-lucide="alert-circle" class="text-red-500 mx-auto mb-10 w-20 h-20"></i>
+            <h4 class="text-3xl font-serif font-black mb-6">오류 발생</h4>
+            <p class="text-stone-500 mb-10">일시적인 네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</p>
+            <button onclick="document.getElementById('error-modal').classList.add('hidden')" class="w-full border border-stone-200 py-6 font-bold uppercase hover:bg-stone-50 transition-all tracking-widest text-xs rounded-xl">닫기</button>
+        </div>
+    </div>
+
     <script>
         lucide.createIcons();
+        
+        // 폼 제출 로직
+        const form = document.getElementById('real-estate-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnLoader = document.getElementById('btn-loader');
+        const btnIcon = document.getElementById('btn-icon');
+        const successModal = document.getElementById('modal');
+        const errorModal = document.getElementById('error-modal');
+
+        // [중요] 여기에 나중에 생성한 Google Apps Script 배포 URL을 넣으세요.
+        const SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 로딩 상태 시작
+            submitBtn.disabled = true;
+            btnText.innerText = "전송 중...";
+            btnLoader.classList.remove('hidden');
+            btnIcon.classList.add('hidden');
+
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+
+            try {
+                // SCRIPT_URL이 설정되지 않았을 경우를 위한 시뮬레이션 코드 (테스트용)
+                if (SCRIPT_URL.includes("YOUR_APPS_SCRIPT")) {
+                    console.log("실제 전송을 위해 SCRIPT_URL을 설정해 주세요. 현재는 시뮬레이션 모드입니다.", data);
+                    await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5초 대기
+                    successModal.classList.remove('hidden');
+                    form.reset();
+                } else {
+                    // 실제 전송 로직
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // CORS 이슈 방지
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    // no-cors 모드에서는 response 내용을 읽을 수 없지만, 
+                    // 에러가 나지 않았다면 성공으로 간주하고 모달을 띄웁니다.
+                    successModal.classList.remove('hidden');
+                    form.reset();
+                }
+            } catch (error) {
+                console.error('Submission Error:', error);
+                errorModal.classList.remove('hidden');
+            } finally {
+                // 상태 복구
+                submitBtn.disabled = false;
+                btnText.innerText = "무료 진단 요청하기";
+                btnLoader.classList.add('hidden');
+                btnIcon.classList.remove('hidden');
+            }
+        });
+
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        function showConfirmation() { document.getElementById('modal').classList.remove('hidden'); }
     </script>
+
+    <!-- 
+    [연동 가이드]
+    1. 구글 스프레드시트 생성 -> '도구' -> 'Apps Script' 클릭
+    2. 아래 코드를 복사해서 붙여넣고 저장하세요.
+    
+    function doPost(e) {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var data = JSON.parse(e.postData.contents);
+      
+      // 1. 시트에 데이터 추가
+      sheet.appendRow([
+        new Date(), 
+        data.name, 
+        data.phone, 
+        data.capital, 
+        data.location, 
+        data.concerns
+      ]);
+      
+      // 2. 이메일 전송 (내 이메일로 알림 받기)
+      var myEmail = "여러분의_이메일@gmail.com"; 
+      var subject = "[CH집현전] 새로운 상담 신청이 접수되었습니다.";
+      var body = "성함: " + data.name + "\n" +
+                 "연락처: " + data.phone + "\n" +
+                 "자본금: " + data.capital + "\n" +
+                 "관심지역: " + data.location + "\n" +
+                 "고민내용: " + data.concerns;
+                 
+      MailApp.sendEmail(myEmail, subject, body);
+      
+      return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+    }
+    
+    3. '배포' -> '새 배포' -> 유형 선택(웹 앱) -> 액세스 권한(모든 사용자)으로 설정 후 URL 복사
+    4. 위 스크립트의 SCRIPT_URL 부분에 복사한 주소를 넣으면 끝입니다.
+    -->
 </body>
 </html>
